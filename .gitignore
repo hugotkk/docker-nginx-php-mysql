@@ -26,3 +26,5 @@ nbproject/
 
 # SSL Certs
 etc/ssl/
+
+web/public/
