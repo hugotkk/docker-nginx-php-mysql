@@ -4,6 +4,6 @@ options:
   verbose: true
 syncs:
   code:
-    src: './web/app/'
+    src: './web/app'
   db:
-    src: './data/db/mysql/'
+    src: './data/db/mysql'
