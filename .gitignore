@@ -27,6 +27,6 @@ nbproject/
 # SSL Certs
 etc/ssl/
 
-web/public/
+web/public/*
 
 .docker-sync
