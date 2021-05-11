@@ -1,0 +1,9 @@
+version: "2"
+
+options:
+  verbose: true
+syncs:
+  code:
+    src: './web/app/'
+  db:
+    src: './data/db/mysql/'
