@@ -1,10 +1,10 @@
 
-This repo is cloned from https://github.com/nanoninja/docker-nginx-php-mysql for my personal usage
+** This repo is cloned from https://github.com/nanoninja/docker-nginx-php-mysql for personal usage **
 
 
-# Nginx PHP MySQL [![Build Status](https://travis-ci.org/nanoninja/docker-nginx-php-mysql.svg?branch=master)](https://travis-ci.org/nanoninja/docker-nginx-php-mysql) [![GitHub version](https://badge.fury.io/gh/nanoninja%2Fdocker-nginx-php-mysql.svg)](https://badge.fury.io/gh/nanoninja%2Fdocker-nginx-php-mysql)
+# Nginx PHP MySQL
 
-Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
+Docker running Nginx, PHP-FPM, Composer, MySQL.
 
 ## Overview
 
@@ -91,22 +91,15 @@ This project use the following ports :
 
 | Server     | Port |
 |------------|------|
-| MySQL      | 8989 |
-| PHPMyAdmin | 8080 |
-| Nginx      | 8000 |
 | Nginx SSL  | 3000 |
 
 ___
 
 ## Clone the project
 
-To install [Git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git), download it and install following the instructions :
-
 ```sh
-git clone https://github.com/nanoninja/docker-nginx-php-mysql.git
+git clone https://github.com/hugotkk/docker-nginx-php-mysql.git
 ```
-
-Go to the project directory :
 
 ```sh
 cd docker-nginx-php-mysql
@@ -146,60 +139,9 @@ cd docker-nginx-php-mysql
 
 ___
 
-## Configure Nginx With SSL Certificates
-
-You can change the host name by editing the `.env` file.
-
-If you modify the host name, do not forget to add it to the `/etc/hosts` file.
-
-1. Generate SSL certificates
-
-    ```sh
-    source .env && docker run --rm -v $(pwd)/etc/ssl:/certificates -e "SERVER=$NGINX_HOST" jacoelho/generate-certificate
-    ```
-
-2. Configure Nginx
-
-    Do not modify the `etc/nginx/default.conf` file, it is overwritten by  `etc/nginx/default.template.conf`
-
-    Edit nginx file `etc/nginx/default.template.conf` and uncomment the SSL server section :
-
-    ```sh
-    # server {
-    #     server_name ${NGINX_HOST};
-    #
-    #     listen 443 ssl;
-    #     fastcgi_param HTTPS on;
-    #     ...
-    # }
-    ```
-
-___
-
-## Configure Xdebug
-
-If you use another IDE than [PHPStorm](https://www.jetbrains.com/phpstorm/) or [Netbeans](https://netbeans.org/), go to the [remote debugging](https://xdebug.org/docs/remote) section of Xdebug documentation.
-
-For a better integration of Docker to PHPStorm, use the [documentation](https://github.com/nanoninja/docker-nginx-php-mysql/blob/master/doc/phpstorm-macosx.md).
-
-1. Get your own local IP address :
-
-    ```sh
-    sudo ifconfig
-    ```
-
-2. Edit php file `etc/php/php.ini` and comment or uncomment the configuration as needed.
-
-3. Set the `remote_host` parameter with your IP :
-
-    ```sh
-    xdebug.remote_host=192.168.0.1 # your IP
-    ```
-___
-
 ## Run the application
 
-1. Copying the composer configuration file : 
+1. Copying the composer configuration file :
 
     ```sh
     cp web/app/composer.json.dist web/app/composer.json
@@ -237,18 +179,12 @@ When developing, you can use [Makefile](https://en.wikipedia.org/wiki/Make_(soft
 
 | Name          | Description                                  |
 |---------------|----------------------------------------------|
-| apidoc        | Generate documentation of API                |
-| clean         | Clean directories for reset                  |
-| code-sniff    | Check the API with PHP Code Sniffer (`PSR2`) |
-| composer-up   | Update PHP dependencies with composer        |
 | docker-start  | Create and start containers                  |
 | docker-stop   | Stop and clear all services                  |
 | gen-certs     | Generate SSL certificates for `nginx`        |
 | logs          | Follow log output                            |
-| mysql-dump    | Create backup of all databases               |
-| mysql-restore | Restore backup of all databases              |
-| phpmd         | Analyse the API with PHP Mess Detector       |
-| test          | Test application with phpunit                |
+| mysql-dump    | Create backup default database               |
+| mysql-restore | Restore backup default database              |
 
 ### Examples
 
@@ -278,36 +214,6 @@ docker run --rm -v $(pwd)/web/app:/app composer require symfony/yaml
 
 ```sh
 docker run --rm -v $(pwd)/web/app:/app composer update
-```
-
-### Generating PHP API documentation
-
-```sh
-docker run --rm -v $(pwd):/data phpdoc/phpdoc -i=vendor/ -d /data/web/app/src -t /data/web/app/doc
-```
-
-### Testing PHP application with PHPUnit
-
-```sh
-docker-compose exec -T php ./app/vendor/bin/phpunit --colors=always --configuration ./app
-```
-
-### Fixing standard code with [PSR2](http://www.php-fig.org/psr/psr-2/)
-
-```sh
-docker-compose exec -T php ./app/vendor/bin/phpcbf -v --standard=PSR2 ./app/src
-```
-
-### Checking the standard code with [PSR2](http://www.php-fig.org/psr/psr-2/)
-
-```sh
-docker-compose exec -T php ./app/vendor/bin/phpcs -v --standard=PSR2 ./app/src
-```
-
-### Analyzing source code with [PHP Mess Detector](https://phpmd.org/)
-
-```sh
-docker-compose exec -T php ./app/vendor/bin/phpmd ./app/src text cleancode,codesize,controversial,design,naming,unusedcode
 ```
 
 ### Checking installed PHP extensions
@@ -359,23 +265,3 @@ source .env && docker exec $(docker-compose ps -q mysqldb) mysqldump -u"$MYSQL_R
 ```sh
 source .env && docker exec -i $(docker-compose ps -q mysqldb) mysql -u"$MYSQL_ROOT_USER" -p"$MYSQL_ROOT_PASSWORD" < "data/db/dumps/YOUR_DB_NAME_dump.sql"
 ```
-
-
-#### Connecting MySQL from [PDO](http://php.net/manual/en/book.pdo.php)
-
-```php
-<?php
-    try {
-        $dsn = 'mysql:host=mysql;dbname=test;charset=utf8;port=3306';
-        $pdo = new PDO($dsn, 'dev', 'dev');
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-    }
-?>
-```
-
-___
-
-## Help us
-
-Any thought, feedback or (hopefully not!)
