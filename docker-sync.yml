@@ -3,7 +3,7 @@ version: "2"
 options:
   verbose: true
 syncs:
-  code:
+  web:
     src: './web/app'
   db:
     src: './data/db/mysql'

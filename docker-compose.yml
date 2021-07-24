@@ -36,7 +36,7 @@ services:
             - "./data/db/mysql:/var/lib/mysql"
 
 volumes:
-  code:
+  web:
     external: true
   db:
     external: true
