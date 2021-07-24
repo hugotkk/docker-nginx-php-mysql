@@ -15,7 +15,7 @@ services:
         restart: always
         depends_on:
             - php
-            - mysqldb
+            - db
     php:
         image: nanoninja/php-fpm:${PHP_VERSION}
         restart: always
@@ -38,7 +38,7 @@ services:
         restart: always
         depends_on:
             - mysqldb
-    mysqldb:
+    db:
         image: mariadb:${MYSQL_VERSION}
         container_name: ${MYSQL_HOST}
         restart: always
