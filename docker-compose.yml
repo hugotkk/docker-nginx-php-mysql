@@ -26,12 +26,11 @@ services:
         image: mariadb:${MYSQL_VERSION}
         container_name: ${MYSQL_HOST}
         restart: always
-        env_file:
-            - ".env"
         environment:
             - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_USER=${MYSQL_PASSWORD}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         ports:
             - "8989:3306"
