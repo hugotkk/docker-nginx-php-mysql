@@ -41,9 +41,3 @@ services:
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         volumes:
             - "./data/db/mysql:/var/lib/mysql"
-
-volumes:
-  web:
-    external: true
-  db:
-    external: true
