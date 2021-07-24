@@ -32,11 +32,11 @@ logs:
 
 mysql-dump:
 	@mkdir -p $(MYSQL_DUMPS_DIR)
-	@docker exec $(shell docker-compose ps -q mysqldb) mysqldump -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@docker exec $(MYSQL_HOST) mysqldump -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
 	@make resetOwner
 
 mysql-restore:
-	@docker exec -i $(shell docker-compose ps -q mysqldb) mysql -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@docker exec -i $(MYSQL_HOST) mysql -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
 
 resetOwner:
 	@$(shell chown -Rf $(SUDO_USER):$(shell id -g -n $(SUDO_USER)) $(MYSQL_DUMPS_DIR) "$(shell pwd)/etc/ssl" "$(shell pwd)/web/app" 2> /dev/null)
