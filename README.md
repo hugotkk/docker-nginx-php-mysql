@@ -125,14 +125,6 @@ cd docker-nginx-php-mysql
 │   │   └── php.ini
 │   └── ssl
 └── web
-    ├── app
-    │   ├── composer.json.dist
-    │   ├── phpunit.xml.dist
-    │   ├── src
-    │   │   └── Foo.php
-    │   └── test
-    │       ├── FooTest.php
-    │       └── bootstrap.php
     └── public
         └── index.php
 ```
