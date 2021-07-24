@@ -18,7 +18,7 @@ help:
 	@echo "  mysql-dump          Create backup of all databases"
 	@echo "  mysql-restore       Restore backup of all databases"
 
-docker-start: init
+docker-start:
 	docker-compose up -d
 
 docker-stop:
