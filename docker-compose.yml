@@ -21,6 +21,7 @@ services:
         restart: always
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
+            - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
             - "./web:/var/www/html"
     db:
         image: mariadb:${MYSQL_VERSION}
