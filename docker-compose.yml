@@ -29,7 +29,6 @@ services:
             - "./web:/var/www/html"
     db:
         image: mariadb:${MYSQL_VERSION}
-        container_name: ${MYSQL_HOST}
         restart: always
         command:
             - --character-set-server=utf8
