@@ -4,6 +4,7 @@ include .env
 
 # MySQL
 MYSQL_DUMPS_DIR=data/db/dumps
+MYSQL_CONTAINER=$(shell docker inspect -f '{{.Name}}' $(shell docker-compose ps -q db))
 
 help:
 	@echo ""
@@ -32,11 +33,11 @@ logs:
 
 mysql-dump:
 	@mkdir -p $(MYSQL_DUMPS_DIR)
-	@docker exec $(MYSQL_HOST) mysqldump -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@docker exec $(MYSQL_CONTAINER) mysqldump -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" --all-databases > $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
 	@make resetOwner
 
 mysql-restore:
-	@docker exec -i $(MYSQL_HOST) mysql -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" $(MYSQL_DATABASE) < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
+	@docker exec -i $(MYSQL_CONTAINER) mysql -u"$(MYSQL_ROOT_USER)" -p"$(MYSQL_ROOT_PASSWORD)" < $(MYSQL_DUMPS_DIR)/db.sql 2>/dev/null
 
 resetOwner:
 	@$(shell chown -Rf $(SUDO_USER):$(shell id -g -n $(SUDO_USER)) $(MYSQL_DUMPS_DIR) "$(shell pwd)/etc/ssl" "$(shell pwd)/web/app" 2> /dev/null)
