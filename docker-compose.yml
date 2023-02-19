@@ -18,6 +18,11 @@ services:
     php:
         image: hugotse/php-fpm:${PHP_VERSION}
         restart: always
+        environment:
+            DB_HOST: ${MYSQL_HOST}
+            DB_USER: ${MYSQL_USER}
+            DB_PASS: ${MYSQL_PASSWORD}
+            DB_DB: ${MYSQL_DATABASE}
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
             - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
